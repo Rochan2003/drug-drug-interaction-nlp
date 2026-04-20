@@ -10,10 +10,11 @@ from shared.preprocessing import ID2LABEL, NUM_LABELS
 POSITIVE_IDS = [1, 2, 3, 4]   # mechanism, effect, advise, int — excludes negative
 
 
-def evaluate(model, test_dataset, config):
+def evaluate(model, test_dataset, config, model_type="bert"):
     """
     Run the trained model on the test set and print the full report.
-    Official metric: macro-F1 over positive classes only (SemEval-2013 convention).
+    model_type: "bert" for Track A, "gat" for Track B.
+    Official metric: macro-F1 over positive classes only (SemEval-2013).
     """
     device = config["device"]
     model  = model.to(device)
@@ -24,12 +25,21 @@ def evaluate(model, test_dataset, config):
 
     with torch.no_grad():
         for batch in loader:
-            logits = model(
-                batch["input_ids"].to(device),
-                batch["attention_mask"].to(device),
-                batch["e1_pos"].to(device),
-                batch["e2_pos"].to(device),
-            )
+            if model_type == "bert":
+                logits = model(
+                    batch["input_ids"].to(device),
+                    batch["attention_mask"].to(device),
+                    batch["e1_pos"].to(device),
+                    batch["e2_pos"].to(device),
+                )
+            else:
+                logits = model(
+                    batch["node_features"].to(device),
+                    batch["adj"].to(device),
+                    batch["edge_types"].to(device),
+                    batch["e1_pos"].to(device),
+                    batch["e2_pos"].to(device),
+                )
             all_preds.extend(logits.argmax(dim=-1).cpu().tolist())
             all_labels.extend(batch["label"].tolist())
 

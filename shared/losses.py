@@ -5,11 +5,17 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-def compute_class_weights(examples, num_labels=5):
-    """Inverse-frequency weights so rare classes get proportionally higher loss."""
+def compute_class_weights(examples, num_labels=5, smooth=False):
+    """
+    Inverse-frequency weights so rare classes get proportionally higher loss.
+    smooth=True applies sqrt to soften extreme ratios (recommended for GAT
+    where raw inverse-frequency causes over-prediction of rare classes).
+    """
     counts  = Counter(ex["label"] for ex in examples)
     total   = sum(counts.values())
     weights = [total / (num_labels * counts.get(i, 1)) for i in range(num_labels)]
+    if smooth:
+        weights = [w ** 0.5 for w in weights]
     return torch.tensor(weights, dtype=torch.float)
 
 

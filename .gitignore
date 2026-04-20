@@ -1,3 +1,11 @@
+# Corpus data (too large, stored locally)
+DDICorpus/
+
+# Track B caches
+track_b/drug_smiles_cache.json
+track_b/drug_embeddings_cache.pkl
+track_b/graph_cache.pkl
+
 # Python
 __pycache__/
 *.py[cod]

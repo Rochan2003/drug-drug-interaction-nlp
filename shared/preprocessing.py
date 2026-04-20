@@ -6,7 +6,7 @@ LABEL2ID = {"negative": 0, "mechanism": 1, "effect": 2, "advise": 3, "int": 4}
 ID2LABEL   = {v: k for k, v in LABEL2ID.items()}
 NUM_LABELS = len(LABEL2ID)
 
-CORPUS_ROOT = os.path.expanduser("~/Desktop/DDICorpus")
+CORPUS_ROOT = os.path.join(os.path.dirname(os.path.dirname(__file__)), "DDICorpus")
 TRAIN_DIR   = os.path.join(CORPUS_ROOT, "Train")
 TEST_DIR    = os.path.join(CORPUS_ROOT, "Test", "Test for DDI Extraction task")
 
