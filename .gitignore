@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Virtual environment
+venv/
+env/
+
+# Model weights (too large for GitHub)
+*.pt
+*.bin
+*.ckpt
+
+# Cache files
+gcn_cache.pkl
+*.pkl
+
+# Logs
+*.log
+biobert_training_log.txt
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# React / Node
+ui/node_modules/
+ui/dist/
